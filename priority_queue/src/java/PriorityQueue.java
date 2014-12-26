@@ -62,13 +62,12 @@ public class PriorityQueue<T> {
 		if(prior == null) { 
 			/* our new element should be the new head*/
 			head = new_elem;
-			new_elem.setNext(curr); /* if queue was empty, this correctly sets to null */
 		} else {
 			prior.setNext(new_elem);
-			new_elem.setNext(curr);
 		}
-			
-			
+		
+		new_elem.setNext(curr); /* if queue was empty, this correctly sets to null */
+				
 	}
 	
 	public QueueElem<T> peek() throws NoSuchElementException {
