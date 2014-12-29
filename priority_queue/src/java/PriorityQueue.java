@@ -62,30 +62,63 @@ public class PriorityQueue<T> {
 		if(prior == null) { 
 			/* our new element should be the new head*/
 			head = new_elem;
+			new_elem.setNext(curr); /* if queue was empty, this correctly sets to null */
 		} else {
 			prior.setNext(new_elem);
+			new_elem.setNext(curr);
 		}
-		
-		new_elem.setNext(curr); /* if queue was empty, this correctly sets to null */
-				
+			
+			
 	}
 	
-	public QueueElem<T> peek() throws NoSuchElementException {
+	public T peek() throws NoSuchElementException {
 		if(this.isEmpty()) {
 			throw new NoSuchElementException();
 		} else {
-			return head;
+			return head.getPayload();
 		}
 		
 	}	
 	
-	public QueueElem<T> dequeue() throws NoSuchElementException {
+	public T dequeue() throws NoSuchElementException {
 		
-		QueueElem<T> elem =  this.peek();
+		if(this.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		
+		QueueElem<T> elem = head;
 		head = elem.getNext();
-		elem.setNext(null);
 		
-		return elem;
+		return elem.getPayload();
+		
+	}
+	
+	public T dequeuePred(QueuePredicate<T> pred) throws NoSuchElementException {
+		
+		QueueElem<T> prior = null;
+		QueueElem<T> curr = head;
+			
+		while(curr != null && !pred.eval(curr)) {
+			/* we must find the right position, based on priority */
+			prior = curr;
+			curr = curr.getNext();
+		}
+		
+		if(curr == null) {
+			/* no elements fulfill the predicate */
+			throw new NoSuchElementException();
+		}
+		
+		if(prior == null) { 
+			/* we removed from the head*/
+			head = curr.getNext();
+		} else {
+			prior.setNext(curr.getNext());
+		}
+		
+		curr.setNext(null);
+		
+		return curr.getPayload();
 		
 	}
 	
