@@ -3,7 +3,7 @@ public class Heap<T> {
 	private int size;
 	private T[] queue;
 	private HeapCompare comp;
-	private static final ROOT = 0;
+	private static final int ROOT = 0;
 	
 	
 	private static int parent(int i) {
@@ -19,7 +19,7 @@ public class Heap<T> {
 	}
 	
 
-	//maintain heap property for tree rooted at i
+	//establish heap property for tree rooted at i using an arbitrary comparison op
 	private void heapify(T[] arr, int i, int size, HeapCompare comp) {
 		int leftChild = left(i), rightChild = right(i);
 		int max_i = i; //assume heap property holds
@@ -43,7 +43,6 @@ public class Heap<T> {
 		
 	}
 	
-	/* we don't want setters for these */
 	public int getMaxSize() {
 		return maxSize;
 	}
@@ -60,7 +59,7 @@ public class Heap<T> {
 		return size == 0;
 	}
 
-	/* writing out signatures */
+	
 	public void insert(T elem) throws HeapException{ 
 		/* place the element in the next empty space and let value bubble up 
 			if necessary to maintain heap property */
@@ -73,7 +72,7 @@ public class Heap<T> {
 		queue[i] = elem;
 		
 		
-		while((int parent = parent(i)) >= ROOT && this.comp.eval(queue[parent], queue[i])) {
+		while((int parent = parent(i)) >= ROOT && this.comp.eval(queue[i], queue[parent])) {
 			//swap them
 			T temp = queue[parent];
 			queue[parent] = queue[i];
@@ -85,7 +84,7 @@ public class Heap<T> {
 	}
 	
 	
-	public T remove() throws HeapExcetion { 
+	public T remove() throws HeapException { 
 		/* take element from the root, swap in the element at the end of the heap,
 			 and heapify */
 		if(isEmpty()) {
@@ -107,7 +106,7 @@ public class Heap<T> {
 
 	public static void makeHeap(T[] arr, HeapCompare comp) {
 		//make a regular array conform to the heap property
-		for(int i = arr.length / 2; i >= 0; i--) {
+		for(int i = (arr.length - 1) / 2; i >= 0; i--) {
 			heapify(arr, i, arr.length, comp);
 		}		
 	}
@@ -116,9 +115,9 @@ public class Heap<T> {
 	public static void heapSort(T[] arr, HeapCompare comp) {
 		int size = arr.length;
 		
-		makeHeap(arr);
+		makeHeap(arr, comp);
 		
-		for(int i = size - 1; i >= 0; i--) {
+		for(int i = size - 1; i >= 1; i--) {
 			//swap root and size value
 			T temp = arr[i];
 			arr[i] = arr[ROOT]; 
@@ -130,9 +129,10 @@ public class Heap<T> {
 	}
 	
 	
-	public Heap(int maxSize) {
+	public Heap(int maxSize, HeapCompare comp) {
 		this.maxSize = maxSize;
 		queue = new T[maxSize];
+		this.comp = comp;
 	}
 	
 }
