@@ -71,7 +71,7 @@ int main()
 	
 	for(i = 0; i < n; i++)
 	{
-		printf("%d ", binsearch(rand01(), weights, 0, len));
+		printf("%d ", binsearch(rand01(), weights, 0, len - 1));
 	}
 	
 	putchar('\n');
