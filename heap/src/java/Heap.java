@@ -2,7 +2,7 @@ public class Heap<T> {
 	private final int maxSize;
 	private int size;
 	private T[] queue;
-	private HeapCompare<T> comp;
+	private final HeapCompare<T> comp;
 	private static final int ROOT = 0;
 	
 	
