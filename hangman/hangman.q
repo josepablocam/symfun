@@ -22,13 +22,13 @@ displayHangman:{1 hangman x`hangix;}
 displayState:{displayWord x; 1"\n\n"; displayHangman x;}
 prompt:{show "Please provide a letter";first trim read0 0}
 nextMove:{
-	g:prompt/[{not first x in .Q.a};""];					//prompt until letter
-	1 ("already guessed\n";"") isnew:not g in x`guessed;	//warn about repeat guesses
-	x[`partial]:@[x`partial; w:where g=x`full;:;g]; 		//fill in guessed letter
-	x[`hangix]+:isnew*0=count w;							//only penalize new and no hits
-	x[`guessed],:isnew#g;									//append if new guess
-	displayState x;											//display partially guessed and hangman
-	x														//return new state
+	g:prompt/[{not first x in .Q.a};""];                    //prompt until letter
+	1 ("already guessed\n";"") isnew:not g in x`guessed;    //warn about repeat guesses
+	x[`partial]:@[x`partial; w:where g=x`full;:;g];         //fill in guessed letter
+	x[`hangix]+:isnew*0=count w;                            //only penalize new and no hits
+	x[`guessed],:isnew#g;                                   //append if new guess
+	displayState x;                                         //display partially guessed and hangman
+	x                                                       //return new state
 	}
 start:{show "Would you like to play? [yes/no]";$["yes"~trim read0 0;play[]; end[]]}
 end:{show "Bye bye";exit 0}
