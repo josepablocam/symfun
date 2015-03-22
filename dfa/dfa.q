@@ -26,7 +26,7 @@ todot:{ssr/["digraph qgraph { %addl %trans } ";("%addl";"%trans");(stradd;stre)@
 
 //User interactions
 cons:{(`$trim each ","vs/:2#txt),enlist `$trim each "-"vs/:2_txt:txt where 0<count each txt:read0 hsym `$x} //triple of starting states, accepting states, and edges
-help:{show "Usage:<prog> -input file [-det]";exit 0}
+help:{1 "Usage:q dfa.q -input file [-det][-rename]";exit 0}
 
 main:{
   if[not `input in key ops:.Q.opt .z.x;help[]]; //we always need input file
