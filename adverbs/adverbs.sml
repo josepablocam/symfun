@@ -14,10 +14,26 @@ fun zip0e (x :: xs) (y :: ys) px py = (x, y) :: (zip0e xs ys x y)
 
 fun zipe x y = zip0e x y (hd x) (hd y);
 
+
+(* each prior helper *)
+fun eachprior0 f x (y :: ys) = f(y, x) :: (eachprior0 f y ys)
+  | eachprior0 f x [] = [] 
+  ;
+  
 (* adverbs *)
 fun /: f = fn l => fn a => map (fn e => f(e, a)) l; (* each first *)
 fun /:: f = fn a => fn l =>  map (fn e => f(a, e)) l; (* each second *)
 fun :/: f = fn l1 => fn l2 => map f (zip l1 l2); (* each both *)
+fun <: f = fn [] => [] | (x :: xs) => x :: (eachprior0 f x xs); (* each prior *)
+
+(* alternative each-both without using zip *)
+fun eb0 f (x :: xs) (y :: ys) = f(x,y) :: (eb0 f xs ys)
+  | eb0 f [] [] = []
+  | eb0 f _ _ = raise Length
+  ;
+
+fun eb f = fn l1 => fn l2 => eb0 f l1 l2;
+
 
 (* drop first i elements from list *)
 fun drop(i, ls) = if i = 0 then ls else drop(i - 1, tl ls);
