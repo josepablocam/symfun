@@ -1,7 +1,7 @@
 // remove attribute, clutters print
 sort:{`#raze asc each x (asc key g)#g:group count each string x}
 // find non null matches for prefix
-startWith:{[v;p] v where (not null v)&(string v) like string[p],"*"}
+startWith:{[v;p] v where (not null v)&v like string[p],"*"}
 // variables
 vars:{system "v ",string x}
 // functions
